@@ -40,5 +40,5 @@ steps:
       deployToSlotOrASE: true
       resourceGroupName: 'uws-sx-rg-uwp'
       slotName: 'production'
-      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-      deploymentMethod: 'auto'
+      package: '$(build.artifactStagingDirectory)/WebApp.zip'
+      deploymentMethod: 'auto' 
