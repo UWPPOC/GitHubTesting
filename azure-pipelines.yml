@@ -42,7 +42,7 @@ steps:
 
 # Deploy to Azure
 - task: AzureWebApp@1
-  displayName: 'Deploy to Deepak Web App'
+  displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
   inputs:
       azureSubscription: 'UWS-SBX'
       appType: 'webApp'
@@ -54,7 +54,7 @@ steps:
       deploymentMethod: 'auto'
 
 - task: AzureWebApp@1
-  displayName: 'Deploy to Mukesh Web App'
+  displayName: 'Deploy to https://mukeshtestwebappnetcore-dcbxgfbnd0gnfdhm.eastus2-01.azurewebsites.net/'
   inputs:
     azureSubscription: 'UWS-SBX'
     appType: 'webApp'
