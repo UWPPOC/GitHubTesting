@@ -51,6 +51,7 @@ steps:
       slotName: 'production'
       package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
       deploymentMethod: 'auto'
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'UWS-SBX'
@@ -59,5 +60,5 @@ steps:
     deployToSlotOrASE: true
     resourceGroupName: 'uws-sx-rg-uwp'
     slotName: 'production'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
