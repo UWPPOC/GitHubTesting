@@ -51,3 +51,13 @@ steps:
       slotName: 'production'
       package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
       deploymentMethod: 'auto'
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'UWS-SBX'
+    appType: 'webApp'
+    appName: 'MukeshTestWebAppNETCore'
+    deployToSlotOrASE: true
+    resourceGroupName: 'uws-sx-rg-uwp'
+    slotName: 'production'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
