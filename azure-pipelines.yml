@@ -46,7 +46,7 @@ stages:
       artifact: drop
 
 # ------------------- DEPLOY STAGE -------------------
-- stage: DeployDeepak  
+- stage: DeployDeepak   
   displayName: 'Deploy Deepak'
   dependsOn: Build
   jobs:
