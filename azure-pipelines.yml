@@ -47,7 +47,7 @@ stages:
 
 # ------------------- DEPLOY STAGE -------------------
 - stage: DeployDeepak
-  displayName: 'Deploy to Azure WebApps'
+  displayName: 'Deploy Deepak'
   dependsOn: Build
   jobs:
   - job: DeployDeepak
@@ -70,7 +70,7 @@ stages:
         deploymentMethod: 'auto'
 
 - stage: DeployMukesh
-  displayName: 'Deploy to Azure WebApps'
+  displayName: 'Deploy Mukesh'
   dependsOn: Build
   jobs:
   - job: DeployMukesh
