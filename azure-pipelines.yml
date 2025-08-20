@@ -47,7 +47,7 @@ stages:
 
 # ------------------- DEPLOY STAGE -------------------
 - stage: DeployDeepak   
-  displayName: 'Deploy Deepak'
+  displayName: 'Deploy Deepak Test'
   dependsOn: Build
   jobs:
   - job: DeployDeepak
