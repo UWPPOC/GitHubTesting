@@ -71,7 +71,7 @@ stages:
 
 - stage: DeployMukesh
   displayName: 'Deploy Mukesh'
-  dependsOn: Build
+  dependsOn: DeployDeepak
   jobs:
   - job: DeployMukesh
     displayName: 'Deploy Mukesh WebApp'
