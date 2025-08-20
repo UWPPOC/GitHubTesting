@@ -69,6 +69,28 @@ stages:
         package: '$(Pipeline.Workspace)/drop/**/*.zip'
         deploymentMethod: 'auto'
         
+- stage: DeployDeepakStage   
+  displayName: 'Deploy Deepak Stage'
+  dependsOn: Build
+  jobs:
+  - job: DeployDeepak
+    displayName: 'Deploy Deepak WebApp'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
+      inputs:
+        azureSubscription: 'UWS-SBX'
+        appType: 'webApp'
+        appName: 'DeepakUWPTechLearningApp'
+        deployToSlotOrASE: true
+        resourceGroupName: 'uws-sx-rg-uwp'
+        slotName: 'stage'
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        deploymentMethod: 'auto'
 
 - stage: DeployMukesh
   displayName: 'Deploy Mukesh'
