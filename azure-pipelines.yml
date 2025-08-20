@@ -46,7 +46,7 @@ stages:
       artifact: drop
 
 # ------------------- DEPLOY STAGE -------------------
-- stage: DeployDeepak
+- stage: DeployDeepak  
   displayName: 'Deploy Deepak'
   dependsOn: Build
   jobs:
@@ -68,10 +68,12 @@ stages:
         slotName: 'production'
         package: '$(Pipeline.Workspace)/drop/**/*.zip'
         deploymentMethod: 'auto'
+        
 
 - stage: DeployMukesh
   displayName: 'Deploy Mukesh'
   dependsOn: DeployDeepak
+  condition: succeeded()
   jobs:
   - job: DeployMukesh
     displayName: 'Deploy Mukesh WebApp'
