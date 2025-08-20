@@ -9,7 +9,7 @@ variables:
 stages:
 # ------------------- BUILD STAGE -------------------
 - stage: Build
-  displayName: 'Build & Publish'
+  displayName: '1/2-Build & Publish'
   jobs:
   - job: BuildJob
     pool:
@@ -47,7 +47,7 @@ stages:
 
 # ------------------- DEPLOY STAGE -------------------
 - stage: Deploy
-  displayName: 'Deploy to Azure WebApps'
+  displayName: '2/2-Deploy to Azure WebApps'
   dependsOn: Build
   jobs:
   - job: DeployDeepak
