@@ -58,11 +58,11 @@ stages:
     - download: current
       artifact: drop
     - task: AzureWebApp@1
-      displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
+      displayName: 'Deploy to https://deepakuwptechlearningap-test-chb4ahfdcga9d0g6.eastus2-01.azurewebsites.net/'
       inputs:
         azureSubscription: 'UWS-SBX'
         appType: 'webApp'
-        appName: 'DeepakUWPTechLearningApp'
+        appName: 'DeepakUWPTechLearningApp3'
         deployToSlotOrASE: true
         resourceGroupName: 'uws-sx-rg-uwp'
         slotName: 'test'
@@ -81,11 +81,11 @@ stages:
     - download: current
       artifact: drop
     - task: AzureWebApp@1
-      displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
+      displayName: 'Deploy to https://deepakuwptechlearningap-stage-amcdfhcse8bpa6gy.eastus2-01.azurewebsites.net/'
       inputs:
         azureSubscription: 'UWS-SBX'
         appType: 'webApp'
-        appName: 'DeepakUWPTechLearningApp'
+        appName: 'DeepakUWPTechLearningApp3'
         deployToSlotOrASE: true
         resourceGroupName: 'uws-sx-rg-uwp'
         slotName: 'stage'
