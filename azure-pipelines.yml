@@ -1,53 +1,118 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
-
-pool:
-  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+# ------------------- BUILD STAGE -------------------
+- stage: Build
+  displayName: 'Build & Publish'
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    # - task: VSTest@2
+    #   inputs:
+    #     platform: '$(buildPlatform)'
+    #     configuration: '$(buildConfiguration)'
 
-# Publish project (instead of msbuild packaging)
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+    # Publish project
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Web Project'
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: true
 
-# Deploy to Azure
-- task: AzureWebApp@1
-  inputs:
-      azureSubscription: 'UWS-SBX'
-      appType: 'webApp'
-      appName: 'DeepakUWPTechLearningApp'
-      deployToSlotOrASE: true
-      resourceGroupName: 'uws-sx-rg-uwp'
-      slotName: 'production'
-      package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-      deploymentMethod: 'auto'
+    # Publish artifact for next stages
+    - publish: '$(Build.ArtifactStagingDirectory)'
+      artifact: drop
+
+# ------------------- DEPLOY STAGE -------------------
+- stage: DeployDeepak   
+  displayName: 'Deploy Deepak Test'
+  dependsOn: Build
+  jobs:
+  - job: DeployDeepak
+    displayName: 'Deploy Deepak WebApp'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
+      inputs:
+        azureSubscription: 'UWS-SBX'
+        appType: 'webApp'
+        appName: 'DeepakUWPTechLearningApp'
+        deployToSlotOrASE: true
+        resourceGroupName: 'uws-sx-rg-uwp'
+        slotName: 'test'
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        deploymentMethod: 'auto'
+        
+- stage: DeployDeepakStage   
+  displayName: 'Deploy Deepak Stage'
+  dependsOn: Build
+  jobs:
+  - job: DeployDeepak
+    displayName: 'Deploy Deepak WebApp'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Deploy to https://deepakuwptechlearningapp.azurewebsites.net/'
+      inputs:
+        azureSubscription: 'UWS-SBX'
+        appType: 'webApp'
+        appName: 'DeepakUWPTechLearningApp'
+        deployToSlotOrASE: true
+        resourceGroupName: 'uws-sx-rg-uwp'
+        slotName: 'stage'
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        deploymentMethod: 'auto'
+
+- stage: DeployMukesh
+  displayName: 'Deploy Mukesh'
+  dependsOn: DeployDeepak
+  condition: succeeded()
+  jobs:
+  - job: DeployMukesh
+    displayName: 'Deploy Mukesh WebApp'
+    
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - download: current
+      artifact: drop
+    - task: AzureWebApp@1
+      displayName: 'Deploy to https://mukeshtestwebappnetcore-dcbxgfbnd0gnfdhm.eastus2-01.azurewebsites.net/'
+      inputs:
+        azureSubscription: 'UWS-SBX'
+        appType: 'webApp'
+        appName: 'MukeshTestWebAppNETCore'
+        deployToSlotOrASE: true
+        resourceGroupName: 'uws-sx-rg-uwp'
+        slotName: 'production'
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        deploymentMethod: 'auto'
