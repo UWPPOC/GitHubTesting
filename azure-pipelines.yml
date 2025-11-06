@@ -92,27 +92,27 @@ stages:
         package: '$(Pipeline.Workspace)/drop/**/*.zip'
         deploymentMethod: 'auto'
 
-- stage: DeployMukesh
-  displayName: 'Deploy Mukesh'
-  dependsOn: DeployDeepak
-  condition: succeeded()
-  jobs:
-  - job: DeployMukesh
-    displayName: 'Deploy Mukesh WebApp'
+# - stage: DeployMukesh
+#   displayName: 'Deploy Mukesh'
+#   dependsOn: DeployDeepak
+#   condition: succeeded()
+#   jobs:
+#   - job: DeployMukesh
+#     displayName: 'Deploy Mukesh WebApp'
     
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - download: current
-      artifact: drop
-    - task: AzureWebApp@1
-      displayName: 'Deploy to https://mukeshtestwebappnetcore-dcbxgfbnd0gnfdhm.eastus2-01.azurewebsites.net/'
-      inputs:
-        azureSubscription: 'UWS-SBX'
-        appType: 'webApp'
-        appName: 'MukeshTestWebAppNETCore'
-        deployToSlotOrASE: true
-        resourceGroupName: 'uws-sx-rg-uwp'
-        slotName: 'production'
-        package: '$(Pipeline.Workspace)/drop/**/*.zip'
-        deploymentMethod: 'auto'
+#     pool:
+#       vmImage: 'windows-latest'
+#     steps:
+#     - download: current
+#       artifact: drop
+#     - task: AzureWebApp@1
+#       displayName: 'Deploy to https://mukeshtestwebappnetcore-dcbxgfbnd0gnfdhm.eastus2-01.azurewebsites.net/'
+#       inputs:
+#         azureSubscription: 'UWS-SBX'
+#         appType: 'webApp'
+#         appName: 'MukeshTestWebAppNETCore'
+#         deployToSlotOrASE: true
+#         resourceGroupName: 'uws-sx-rg-uwp'
+#         slotName: 'production'
+#         package: '$(Pipeline.Workspace)/drop/**/*.zip'
+#         deploymentMethod: 'auto'
